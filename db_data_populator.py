@@ -48,19 +48,19 @@ try:
     
 
     # -------------------------- CREATE TABLE 
-    create_table_query = '''CREATE TABLE breed_supplement
-          (breed_id INT PRIMARY KEY,
-          breed_type TEXT NOT NULL,
-          top_1_supplement TEXT,
-          top_2_supplement TEXT,
-          top_3_supplement TEXT,
-          top_4_supplement TEXT,
-          medical_issue_1 TEXT,
-          medical_issue_2 TEXT,
-          medical_issue_3 TEXT,
-          medical_issue_4 TEXT); '''
+    #create_table_query = '''CREATE TABLE breed_supplement
+          #(breed_id INT PRIMARY KEY,
+          #breed_type TEXT NOT NULL,
+          #top_1_supplement TEXT,
+          #top_2_supplement TEXT,
+          #top_3_supplement TEXT,
+          #top_4_supplement TEXT,
+          #medical_issue_1 TEXT,
+          #medical_issue_2 TEXT,
+          #medical_issue_3 TEXT,
+          #medical_issue_4 TEXT); '''
           
-    create_table_query = '''CREATE TABLE nuevaT
+    create_table_query = '''CREATE TABLE aNewTable
           (dogType TEXT,
           dogSupp TEXT,
           dogFood TEXT); '''
@@ -74,22 +74,22 @@ try:
     
     # --------- sql query
     #postgres_insert_query = """ INSERT INTO breed_supplement (breed_type, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('eye supplement', 'hair supplement', 'liver supplement', 'heart supplement', 'eye fail', 'hair fail', 'liver fail', 'heart fail') """
-    sql_insert_query = """ INSERT INTO nuevaT (dogType, dogSupp, dogFood) VALUES ('shietsu', 'a supplement', 'some food') """
+    sql_insert_query = """ INSERT INTO aNewTable (dogType, dogSupp, dogFood) VALUES ('a shietsu', 'a supplement', 'some food') """
+    another_sql_query = """ INSERT INTO aNewTable (dogType, dogSupp, dogFood) VALUES ('some shietsu', 'the supplement', 'the food') """
     #record_to_insert = ('bull dog', 'magnesium', 'croquets')
 
    
     # --------- execute sql query
-    cursor.execute(sql_insert_query)
+    #cursor.execute(sql_insert_query)
     #cursor.execute(postgres_insert_query, record_to_insert)
     # --- executemany() to insert multiple rows rows
-    #result = cursor.executemany(sql_insert_query, sql_insert_query)
+    result = cursor.executemany(sql_insert_query, another_sql_query)
 
     
     # --------- commit
     connection.commit()
     count = cursor.rowcount
     print (count, "Record inserted successfully into breed supplement table")
-    print(cursor.rowcount, "Record inserted successfully into mobile table")
 
 
 
