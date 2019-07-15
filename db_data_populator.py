@@ -30,7 +30,7 @@ Vet_Data
 
 
 #%%
-# ------------------ CONNECT TO POSTGRES DB
+# -------------------------- CONNECT TO POSTGRES DB
 try:
     connection = psycopg2.connect(user = "pablodiaz",
                                   password = "rootroot",
@@ -47,9 +47,9 @@ try:
     print("You are connected to - ", record,"\n")
     
     
-# ------------------ CREATE TABLE 
+# -------------------------- CREATE TABLE 
     create_table_query = '''CREATE TABLE breed_supplement
-          (breed_id INT PRIMARY KEY     NOT NULL,
+          (breed_id INT PRIMARY KEY,
           breed_type TEXT NOT NULL,
           top_1_supplement TEXT,
           top_2_supplement TEXT,
@@ -59,34 +59,77 @@ try:
           medical_issue_2 TEXT,
           medical_issue_3 TEXT,
           medical_issue_4 TEXT); '''
+          
+    create_table_query = '''CREATE TABLE eraseMe
+          (dogType TEXT,
+          dogSupp TEXT,
+          dogFood TEXT); '''
     
     cursor.execute(create_table_query)
     connection.commit()
     print("Table created successfully in PostgreSQL ")
     
     
-    postgres_insert_query = """ INSERT INTO mobile (ID, MODEL, PRICE) VALUES (%s,%s,%s)"""
-   record_to_insert = (5, 'One Plus 6', 950)
-   cursor.execute(postgres_insert_query, record_to_insert)
+    # -------------------------- INSERT
+    #postgres_insert_query = """ INSERT INTO breed_supplement (breed_type, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('eye supplement', 'hair supplement', 'liver supplement', 'heart supplement', 'eye fail', 'hair fail', 'liver fail', 'heart fail') """
+    
+    postgres_insert_query = """ INSERT INTO eraseMe (dogType, dogSupp, dogFood) VALUES ('golden ret', 'supplement', 'food') """
+    
+    record_to_insert = ('bull dog', 'magnesium', 'croquets')
+    
+    cursor.execute(postgres_insert_query, record_to_insert)
+    
+    #record_to_insert = ('new supplement record', 'another supplement', 'other supplement')
+    #cursor.execute(postgres_insert_query, record_to_insert)
    
-   connection.commit()
-   count = cursor.rowcount
-   print (count, "Record inserted successfully into mobile table")
+    #cursor.execute(postgres_insert_query)
+    
+    cursor.execute(record_to_insert)
+    
+    connection.commit()
+    count = cursor.rowcount
+    print (count, "Record inserted successfully into mobile table")
+
+
+
+
+
+
+# --------------------------
+# -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
     if(connection):
-        print("Failed to insert record into mobile table", error)
-    
-    
-# ------------------ ERROR
-except (Exception, psycopg2.Error) as error :
-    print ("Error while connecting to PostgreSQL", error)
-# ------- CLOSE CONNECTION 
+        print("Failed to insert record into breed_supplement table", error)
 finally:
     #closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
+    if(connection):
+        cursor.close()
+        connection.close()
+        print("PostgreSQL connection is closed")
+# -------------------------- ERROR
+#except (Exception, psycopg2.Error) as error :
+    #print ("Error while connecting or inserting to PostgreSQL", error)
+# ------- CLOSE CONNECTION 
+#finally:
+    #closing database connection.
+        #if(connection):
+            #cursor.close()
+            #connection.close()
+            #print("PostgreSQL connection is closed")
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             
             
