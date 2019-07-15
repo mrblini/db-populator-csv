@@ -17,6 +17,7 @@ except:
 import pandas as pd
 import numpy as np
 import psycopg2
+from psycopg2 import Error
 
 
 # In[3]:
@@ -29,13 +30,13 @@ Vet_Data
 
 
 #%%
-# Connnect to postgress db
+# ------------------ CONNECT TO POSTGRES DB
 try:
     connection = psycopg2.connect(user = "pablodiaz",
                                   password = "rootroot",
                                   host = "127.0.0.1",
                                   port = "5400",
-                                  database = "pablodiaz")
+                                  database = "DandyDB")
     cursor = connection.cursor()
     
     print ( connection.get_dsn_parameters(),"\n")
@@ -44,8 +45,29 @@ try:
     cursor.execute("SELECT version();")
     record = cursor.fetchone()
     print("You are connected to - ", record,"\n")
+    
+    
+# ------------------ CREATE TABLE 
+    create_table_query = '''CREATE TABLE breed_supplement
+          (breed_id INT PRIMARY KEY     NOT NULL,
+          breed_type TEXT NOT NULL,
+          top_1_supplement TEXT,
+          top_2_supplement TEXT,
+          top_3_supplement TEXT,
+          top_4_supplement TEXT,
+          medical_issue_1 TEXT,
+          medical_issue_2 TEXT,
+          medical_issue_3 TEXT,
+          medical_issue_4 TEXT); '''
+    
+    cursor.execute(create_table_query)
+    connection.commit()
+    print("Table created successfully in PostgreSQL ")
+    
+# ------- ERROR
 except (Exception, psycopg2.Error) as error :
     print ("Error while connecting to PostgreSQL", error)
+# ------- CLOSE CONNECTION 
 finally:
     #closing database connection.
         if(connection):
