@@ -46,8 +46,8 @@ try:
     record = cursor.fetchone()
     print("You are connected to - ", record,"\n")
     
-    
-# -------------------------- CREATE TABLE 
+
+    # -------------------------- CREATE TABLE 
     create_table_query = '''CREATE TABLE breed_supplement
           (breed_id INT PRIMARY KEY,
           breed_type TEXT NOT NULL,
@@ -60,7 +60,7 @@ try:
           medical_issue_3 TEXT,
           medical_issue_4 TEXT); '''
           
-    create_table_query = '''CREATE TABLE eraseMe
+    create_table_query = '''CREATE TABLE nuevaT
           (dogType TEXT,
           dogSupp TEXT,
           dogFood TEXT); '''
@@ -69,53 +69,45 @@ try:
     connection.commit()
     print("Table created successfully in PostgreSQL ")
     
-    
+
     # -------------------------- INSERT
+    
+    # --------- sql query
     #postgres_insert_query = """ INSERT INTO breed_supplement (breed_type, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('eye supplement', 'hair supplement', 'liver supplement', 'heart supplement', 'eye fail', 'hair fail', 'liver fail', 'heart fail') """
-    
-    postgres_insert_query = """ INSERT INTO eraseMe (dogType, dogSupp, dogFood) VALUES ('golden ret', 'supplement', 'food') """
-    
-    record_to_insert = ('bull dog', 'magnesium', 'croquets')
-    
-    cursor.execute(postgres_insert_query, record_to_insert)
-    
-    #record_to_insert = ('new supplement record', 'another supplement', 'other supplement')
-    #cursor.execute(postgres_insert_query, record_to_insert)
+    sql_insert_query = """ INSERT INTO nuevaT (dogType, dogSupp, dogFood) VALUES ('shietsu', 'a supplement', 'some food') """
+    #record_to_insert = ('bull dog', 'magnesium', 'croquets')
+
    
-    #cursor.execute(postgres_insert_query)
+    # --------- execute sql query
+    cursor.execute(sql_insert_query)
+    #cursor.execute(postgres_insert_query, record_to_insert)
+    # --- executemany() to insert multiple rows rows
+    #result = cursor.executemany(sql_insert_query, sql_insert_query)
+
     
-    cursor.execute(record_to_insert)
-    
+    # --------- commit
     connection.commit()
     count = cursor.rowcount
-    print (count, "Record inserted successfully into mobile table")
+    print (count, "Record inserted successfully into breed supplement table")
+    print(cursor.rowcount, "Record inserted successfully into mobile table")
 
 
 
 
 
-
-# --------------------------
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
     if(connection):
         print("Failed to insert record into breed_supplement table", error)
+        #print("Failed inserting record into mobile table {}".format(error))
 finally:
     #closing database connection.
     if(connection):
         cursor.close()
         connection.close()
         print("PostgreSQL connection is closed")
-# -------------------------- ERROR
-#except (Exception, psycopg2.Error) as error :
-    #print ("Error while connecting or inserting to PostgreSQL", error)
-# ------- CLOSE CONNECTION 
-#finally:
-    #closing database connection.
-        #if(connection):
-            #cursor.close()
-            #connection.close()
-            #print("PostgreSQL connection is closed")
+#records_to_insert = [ (4,'LG', 800) , (5,'One Plus 6', 950)]
+#bulkInsert(records_to_insert)
             
             
             
