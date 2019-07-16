@@ -4,7 +4,6 @@
 
 # In[1]:
 # Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
-# ms-python.python added
 import os
 try:
 	os.chdir(os.path.join(os.getcwd(), '/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv'))
@@ -15,21 +14,22 @@ except:
 
 # In[2]:
 import pandas as pd
-import numpy as np
 import psycopg2
+import numpy as np
 from psycopg2 import Error
 
 
 # In[3]:
-# Importing data from Vet Data
+# Importing data from csv file
 Vet_Data = pd.read_csv('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
 
 
-# In[4]:
+#%%
 Vet_Data
 
 
-#%%
+# In[5]
+
 # -------------------------- CONNECT TO POSTGRES DB
 try:
     connection = psycopg2.connect(user = "pablodiaz",
@@ -46,8 +46,14 @@ try:
     record = cursor.fetchone()
     print("You are connected to - ", record,"\n")
     
+except (Exception, psycopg2.Error) as error :
+    print ("Error while connecting to PostgreSQL", error)
 
-    # -------------------------- CREATE TABLE 
+
+# In[6]
+
+# -------------------------- CREATE TABLE 
+try:
     #create_table_query = '''CREATE TABLE breed_supplement
           #(breed_id INT PRIMARY KEY,
           #breed_type TEXT NOT NULL,
@@ -60,22 +66,30 @@ try:
           #medical_issue_3 TEXT,
           #medical_issue_4 TEXT); '''
           
-    create_table_query = '''CREATE TABLE nTable
-          (dogType TEXT,
-          dogSupp TEXT,
-          dogFood TEXT); '''
+    create_table_query = '''CREATE TABLE "del"
+          (id SERIAL PRIMARY KEY,
+          dogType VARCHAR(80) NOT NULL,
+          dogSupp VARCHAR(80),
+          dogFood VARCHAR(80)); '''
     
     cursor.execute(create_table_query)
     connection.commit()
     print("Table created successfully in PostgreSQL ")
     
+except (Exception, psycopg2.DatabaseError) as error :
+    print ("Error while creating PostgreSQL table", error)
 
-    # -------------------------- INSERT
+    
+# In[7]
+    
+# -------------------------- INSERT
+try:
+    #ALTER TABLE "del" ALTER COLUMN target
     
     # --------- sql query
     #postgres_insert_query = """ INSERT INTO breed_supplement (breed_type, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('eye supplement', 'hair supplement', 'liver supplement', 'heart supplement', 'eye fail', 'hair fail', 'liver fail', 'heart fail') """
-    sql_insert_query = """ INSERT INTO nTable (dogType, dogSupp, dogFood) VALUES ('a shietsu', 'a supplement', 'some food') """
-    another_sql_query = """ INSERT INTO nTable (dogType, dogSupp, dogFood) VALUES ('some shietsu', 'the supplement', 'the food') """
+    sql_insert_query = """ INSERT INTO "del" (dogType, dogSupp, dogFood) VALUES ('a shietsu', 'a supplement', 'some food') """
+    another_sql_query = """ INSERT INTO "del" (dogType, dogSupp, dogFood) VALUES ('some shietsu', 'the supplement', 'the food') """
     #record_to_insert = ('bull dog', 'magnesium', 'croquets')
 
    
@@ -93,15 +107,17 @@ try:
 
 
 
-
-
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
     if(connection):
         print("Failed to insert record into breed_supplement table", error)
         #print("Failed inserting record into mobile table {}".format(error))
+        
+
+# In[8]
+        
+# -------------------------- CLOSE DB CONNECTION 
 finally:
-    #closing database connection.
     if(connection):
         cursor.close()
         connection.close()
