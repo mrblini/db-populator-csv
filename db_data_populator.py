@@ -19,16 +19,7 @@ import numpy as np
 from psycopg2 import Error
 
 
-# In[3]:
-# Importing data from csv file
-Vet_Data = pd.read_csv('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
-
-
-#%%
-Vet_Data
-
-
-# In[5]
+# In[3]
 
 # -------------------------- CONNECT TO POSTGRES DB
 try:
@@ -50,7 +41,7 @@ except (Exception, psycopg2.Error) as error :
     print ("Error while connecting to PostgreSQL", error)
 
 
-# In[6]
+# In[4]
 
 # -------------------------- CREATE TABLE 
 try:
@@ -74,14 +65,47 @@ try:
     
 except (Exception, psycopg2.DatabaseError) as error :
     print ("Error while creating PostgreSQL table", error)
+        
+    
+    
+    
+    
+# In[55]
+
+import pandas as pd
+import psycopg2
+
+# Importing data from csv file
+csvFile = pd.read_csv('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
+
+
+# In[66]
+
+csvFile
+
+# In[77]
+
+# -------------------------- INSERT CSV
+try:
+    # --------- sql query
+    for x in csvFile:
+        print(x)
+
+# -------------------------- ERROR
+except (Exception, psycopg2.Error) as error :
+    #if(connection):
+        print("Failed to insert record into breed_supplement table", error)
+        #print("Failed inserting record into breed_supplement table {}".format(error))
+
+
+
+
 
     
-# In[7]
+# In[8]
     
-# -------------------------- INSERT
-try:
-    #ALTER TABLE table_name ALTER COLUMN col_name
-    
+# -------------------------- INSERT TEST
+try: 
     # --------- sql query
     sql_insert_query = """ INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('shietsu', 'supplement one', 'supp two', 'supp 3', 'supp four', 'medical issue one', 'med issue 2', 'med 3', 'med 4') """
     #another_sql_query = """ INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('bull dog', 'supplement one', 'supp two', 'supp 3', 'supp four', 'medical issue one', 'med issue 2', 'med 3', 'med 4') """
@@ -106,10 +130,10 @@ try:
 except (Exception, psycopg2.Error) as error :
     if(connection):
         print("Failed to insert record into breed_supplement table", error)
-        #print("Failed inserting record into mobile table {}".format(error))
+        #print("Failed inserting record into breed_supplement table {}".format(error))
         
 
-# In[8]
+# In[9]
         
 # -------------------------- CLOSE DB CONNECTION 
 finally:
