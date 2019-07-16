@@ -60,7 +60,7 @@ try:
           #medical_issue_3 TEXT,
           #medical_issue_4 TEXT); '''
           
-    create_table_query = '''CREATE TABLE aNewTable
+    create_table_query = '''CREATE TABLE nTable
           (dogType TEXT,
           dogSupp TEXT,
           dogFood TEXT); '''
@@ -74,8 +74,8 @@ try:
     
     # --------- sql query
     #postgres_insert_query = """ INSERT INTO breed_supplement (breed_type, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('eye supplement', 'hair supplement', 'liver supplement', 'heart supplement', 'eye fail', 'hair fail', 'liver fail', 'heart fail') """
-    sql_insert_query = """ INSERT INTO aNewTable (dogType, dogSupp, dogFood) VALUES ('a shietsu', 'a supplement', 'some food') """
-    another_sql_query = """ INSERT INTO aNewTable (dogType, dogSupp, dogFood) VALUES ('some shietsu', 'the supplement', 'the food') """
+    sql_insert_query = """ INSERT INTO nTable (dogType, dogSupp, dogFood) VALUES ('a shietsu', 'a supplement', 'some food') """
+    another_sql_query = """ INSERT INTO nTable (dogType, dogSupp, dogFood) VALUES ('some shietsu', 'the supplement', 'the food') """
     #record_to_insert = ('bull dog', 'magnesium', 'croquets')
 
    
