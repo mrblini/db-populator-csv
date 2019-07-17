@@ -100,20 +100,26 @@ try:
             break
         
         elementsArr = []
+        elementsArr.clear()
         for element in row:
-            print(element)
-            if element == "":
-                elementsArr = elementsArr.append(element)
+            print("==> every element: " + element)
+            #if element is not None:
+            try:
+                print("-> inside not None: " + element)
+                elementsArr.append(element)
                 print(elementsArr)
-            else:
-                elementsArr = elementsArr.append("Null val")
+            #else:
+            except:
+                print("-------> 'None' type catch")
+                elementsArr.append("Nval")
             
-            
+        print("===========> After for loop")
+        
         # --------- sql query
         sql_insert_query = """
             INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) 
             VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
-
+        
         # --------- execute sql query
         cursor.execute(sql_insert_query)
         
@@ -121,9 +127,11 @@ try:
         connection.commit()
         count = cursor.rowcount
         print (count, "Record inserted successfully into breed supplement table")
-            
+           
+        # --------- clear array, display current row,
+        elementsArr.clear()
+        print("----------------> In row: " + count)
         count += 1
-        #var elementCol_1 = row[0]
 
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
@@ -135,6 +143,7 @@ except (Exception, psycopg2.Error) as error :
 # -------------------------- TEST ARRAY APPEND None VALUES:
 row = ["1", "2", "", "4", "5", "6", "7"]
 elementsArr = ["A", "b", "C", "d"]
+#print(elementsArr)
 for element in row:
     print("every element: " + element)
     #if not (element is None): 
