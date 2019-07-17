@@ -11,13 +11,12 @@ try:
 except:
 	pass
 
-
 # In[2]:
 import pandas as pd
 import psycopg2
+import csv
 import numpy as np
 from psycopg2 import Error
-
 
 # In[3]
 
@@ -39,7 +38,6 @@ try:
     
 except (Exception, psycopg2.Error) as error :
     print ("Error while connecting to PostgreSQL", error)
-
 
 # In[4]
 
@@ -64,42 +62,51 @@ try:
     print("Table created successfully in PostgreSQL ")
     
 except (Exception, psycopg2.DatabaseError) as error :
-    print ("Error while creating PostgreSQL table", error)
-        
+    print ("Error while creating PostgreSQL table", error)       
     
-    
-    
-    
-# In[55]
+# In[5]
 
 import pandas as pd
 import psycopg2
+import csv
 
 # Importing data from csv file
 csvFile = pd.read_csv('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
 
 
-# In[66]
+# In[6]
 
-csvFile
+#csvFile
 
-# In[77]
+# In[7]
 
-# -------------------------- INSERT CSV
+import csv
+# -------------------------- Open CSV
+# Importing data from csv file
+f = open('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
+csvFile = csv.reader(f)
+
+# -------------------------- Test reading each element
 try:
-    # --------- sql query
-    for x in csvFile:
-        print(x)
+    count = 0
+    for row in csvFile:
+        #print(row[1])
+        #print(len(row))
+        if count == 2:
+            break
+        for elements in row:
+            print(elements)
+        print("===========")
+        count += 1
+        #var elementCol_1 = row[0]
+        
+# --------- sql query
 
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
     #if(connection):
         print("Failed to insert record into breed_supplement table", error)
         #print("Failed inserting record into breed_supplement table {}".format(error))
-
-
-
-
 
     
 # In[8]
@@ -111,20 +118,16 @@ try:
     #another_sql_query = """ INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('bull dog', 'supplement one', 'supp two', 'supp 3', 'supp four', 'medical issue one', 'med issue 2', 'med 3', 'med 4') """
     #record_to_insert = ('bull dog', 'magnesium', 'croquets')
 
-   
     # --------- execute sql query
     cursor.execute(sql_insert_query)
     # --- executemany() to insert multiple rows rows
     #result = cursor.executemany(sql_insert_query, another_sql_query)
     #cursor.execute(postgres_insert_query, record_to_insert)
-
     
     # --------- commit
     connection.commit()
     count = cursor.rowcount
     print (count, "Record inserted successfully into breed supplement table")
-
-
 
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
@@ -132,7 +135,6 @@ except (Exception, psycopg2.Error) as error :
         print("Failed to insert record into breed_supplement table", error)
         #print("Failed inserting record into breed_supplement table {}".format(error))
         
-
 # In[9]
         
 # -------------------------- CLOSE DB CONNECTION 
