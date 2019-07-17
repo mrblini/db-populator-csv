@@ -3,7 +3,9 @@
 
 
 # In[1]:
-# Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
+
+# -------------------------- CHANGE WORKING DIRECTORY:
+# Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting.
 import os
 try:
 	os.chdir(os.path.join(os.getcwd(), '/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv'))
@@ -12,6 +14,8 @@ except:
 	pass
 
 # In[2]:
+    
+# -------------------------- IMPORT PACKAGES:
 import pandas as pd
 import psycopg2
 import csv
@@ -20,7 +24,7 @@ from psycopg2 import Error
 
 # In[3]
 
-# -------------------------- CONNECT TO POSTGRES DB
+# -------------------------- CONNECT TO POSTGRES DB:
 try:
     connection = psycopg2.connect(user = "pablodiaz",
                                   password = "rootroot",
@@ -66,32 +70,34 @@ except (Exception, psycopg2.DatabaseError) as error :
     
 # In[5]
 
-import pandas as pd
-import psycopg2
-import csv
-
-# Importing data from csv file
-csvFile = pd.read_csv('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
+# -------------------------- READ ALL CSV FILE (with pandas)
+# uncoment line below
+#csvFile = pd.read_csv('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
 
 
 # In[6]
 
+# -------------------------- PRINT ALL CSV FILE (with pandas)
+# uncoment line below
 #csvFile
 
 # In[7]
 
 import csv
-# -------------------------- Open CSV
+# -------------------------- READ CSV FILE (with csv)
 # Importing data from csv file
 f = open('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/breed_supplement_matrix.csv')
 csvFile = csv.reader(f)
 
-# -------------------------- Test reading each element
+# In[8]
+
+# -------------------------- TEST PRINT SPECIFIED CSV ELEMENTS
 try:
     count = 0
     for row in csvFile:
         #print(row[1])
         #print(len(row))
+        # how many rows to print:
         if count == 2:
             break
         for elements in row:
@@ -99,8 +105,6 @@ try:
         print("===========")
         count += 1
         #var elementCol_1 = row[0]
-        
-# --------- sql query
 
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
@@ -108,10 +112,34 @@ except (Exception, psycopg2.Error) as error :
         print("Failed to insert record into breed_supplement table", error)
         #print("Failed inserting record into breed_supplement table {}".format(error))
 
+# In[9]
+        
+# -------------------------- INSERT ALL CSV ELEMENTS INTO DB
+try:
+    count = 0
+    for row in csvFile:
+        #print(row[1])
+        #print(len(row))
+        # how many rows to print:
+        if count == 2:
+            break
+        for elements in row:
+            print(elements)
+        print("===========")
+        count += 1
+        #var elementCol_1 = row[0]
+
+# -------------------------- ERROR
+except (Exception, psycopg2.Error) as error :
+    #if(connection):
+        print("Failed to insert record into breed_supplement table", error)
+        #print("Failed inserting record into breed_supplement table {}".format(error))
+        # --------- sql query
+
     
 # In[8]
     
-# -------------------------- INSERT TEST
+# -------------------------- TEST INSERT
 try: 
     # --------- sql query
     sql_insert_query = """ INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('shietsu', 'supplement one', 'supp two', 'supp 3', 'supp four', 'medical issue one', 'med issue 2', 'med 3', 'med 4') """
