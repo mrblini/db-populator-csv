@@ -90,6 +90,64 @@ f = open('/Users/pablodiaz/Downloads/l-dandy/work/t4-csv_to_db/db-populator-csv/
 csvFile = csv.reader(f)
 
 # In[8]
+        
+# -------------------------- INSERT ALL CSV ELEMENTS INTO DB
+try:
+    count = 0
+    for row in csvFile:
+        # how many rows to insert:
+        if count == 2:
+            break
+        
+        elementsArr = []
+        for element in row:
+            print(element)
+            if element == "":
+                elementsArr = elementsArr.append(element)
+                print(elementsArr)
+            else:
+                elementsArr = elementsArr.append("Null val")
+            
+            
+        # --------- sql query
+        sql_insert_query = """
+            INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) 
+            VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
+
+        # --------- execute sql query
+        cursor.execute(sql_insert_query)
+        
+        # --------- commit
+        connection.commit()
+        count = cursor.rowcount
+        print (count, "Record inserted successfully into breed supplement table")
+            
+        count += 1
+        #var elementCol_1 = row[0]
+
+# -------------------------- ERROR
+except (Exception, psycopg2.Error) as error :
+    #if(connection):
+        print("Failed to insert record into breed_supplement table", error)
+        #print("Failed inserting record into breed_supplement table {}".format(error))
+# In[8.5]
+        
+# -------------------------- TEST ARRAY APPEND None VALUES:
+row = ["1", "2", "", "4", "5", "6", "7"]
+elementsArr = ["A", "b", "C", "d"]
+for element in row:
+    print("every element: " + element)
+    #if not (element is None): 
+    #if element is not None:
+    if element == "":
+        print("not null: " + element)
+        #elementsArr = elementsArr.append(element)
+        #print(elementsArr)
+    else:
+        print("Empty element")
+   
+
+# In[9]
 
 # -------------------------- TEST PRINT SPECIFIED CSV ELEMENTS
 try:
@@ -100,8 +158,8 @@ try:
         # how many rows to print:
         if count == 2:
             break
-        for elements in row:
-            print(elements)
+        for element in row:
+            print(element)
         print("===========")
         count += 1
         #var elementCol_1 = row[0]
@@ -111,35 +169,10 @@ except (Exception, psycopg2.Error) as error :
     #if(connection):
         print("Failed to insert record into breed_supplement table", error)
         #print("Failed inserting record into breed_supplement table {}".format(error))
-
-# In[9]
-        
-# -------------------------- INSERT ALL CSV ELEMENTS INTO DB
-try:
-    count = 0
-    for row in csvFile:
-        #print(row[1])
-        #print(len(row))
-        # how many rows to print:
-        if count == 2:
-            break
-        for elements in row:
-            print(elements)
-        print("===========")
-        count += 1
-        #var elementCol_1 = row[0]
-
-# -------------------------- ERROR
-except (Exception, psycopg2.Error) as error :
-    #if(connection):
-        print("Failed to insert record into breed_supplement table", error)
-        #print("Failed inserting record into breed_supplement table {}".format(error))
-        # --------- sql query
-
     
-# In[8]
+# In[10]
     
-# -------------------------- TEST INSERT
+# -------------------------- TEST HARDCODED INSERT
 try: 
     # --------- sql query
     sql_insert_query = """ INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) VALUES ('shietsu', 'supplement one', 'supp two', 'supp 3', 'supp four', 'medical issue one', 'med issue 2', 'med 3', 'med 4') """
@@ -163,7 +196,7 @@ except (Exception, psycopg2.Error) as error :
         print("Failed to insert record into breed_supplement table", error)
         #print("Failed inserting record into breed_supplement table {}".format(error))
         
-# In[9]
+# In[11]
         
 # -------------------------- CLOSE DB CONNECTION 
 finally:
@@ -171,8 +204,6 @@ finally:
         cursor.close()
         connection.close()
         print("PostgreSQL connection is closed")
-#records_to_insert = [ (4,'LG', 800) , (5,'One Plus 6', 950)]
-#bulkInsert(records_to_insert)
             
             
             
