@@ -99,8 +99,8 @@ try:
         if count == 2:
             break
         
+        # --------- LOOP THROUGH ROW & append every element to cleared list
         elementsArr = []
-        elementsArr.clear()
         for element in row:
             print("==> every element: " + element)
             #if element is not None:
@@ -111,14 +111,27 @@ try:
             #else:
             except:
                 print("-------> 'None' type catch")
-                elementsArr.append("Nval")
+                elementsArr.append("Null val")
             
-        print("===========> After for loop")
+        print("===========> After for loop. list:")
+        print(elementsArr)
+        
+        # --------- values to insert
+        elem0 = elementsArr[0]
+        elem1 = elementsArr[1]
+        elem2 = elementsArr[2]
+        elem3 = elementsArr[3]
+        elem4 = elementsArr[4]
+        elem9 = elementsArr[9]
+        elem10 = elementsArr[10]
+        elem11 = elementsArr[11]
+        elem12 = elementsArr[12]
         
         # --------- sql query
         sql_insert_query = """
             INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) 
-            VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
+            VALUES (elem0, elem1, elem2, elem3, elem4, elem9, elem10, elem11, elem12) """
+            #VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
         
         # --------- execute sql query
         cursor.execute(sql_insert_query)
@@ -128,7 +141,7 @@ try:
         count = cursor.rowcount
         print (count, "Record inserted successfully into breed supplement table")
            
-        # --------- clear array, display current row,
+        # --------- clear array, display current row & increment row count
         elementsArr.clear()
         print("----------------> In row: " + count)
         count += 1
