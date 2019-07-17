@@ -145,8 +145,12 @@ try:
             #VALUES ('somethinng', 'elem', 'elem2', 'elem3', 'elem4', 'elem9', 'elem10', 'elem11', 'elem12') """
             #VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
         
+        print("---------------->>>> In row: " + rowCount)
+        
         # --------- execute sql query
         cursor.execute(sql_insert_query)
+        
+        print("--------------|--> In row: " + rowCount)
         
         # --------- commit
         connection.commit()
@@ -155,7 +159,7 @@ try:
            
         # --------- clear array, display current row & increment row count
         elementsArr.clear()
-        print("----------------> In row: " + rowCount)
+        print("----------||------> In row: " + rowCount)
         rowCount += 1
 
 # -------------------------- ERROR
