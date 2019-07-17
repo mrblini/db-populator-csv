@@ -93,10 +93,10 @@ csvFile = csv.reader(f)
         
 # -------------------------- INSERT ALL CSV ELEMENTS INTO DB
 try:
-    count = 0
+    rowCount = 0
     for row in csvFile:
         # how many rows to insert:
-        if count == 2:
+        if rowCount == 2:
             break
         
         # --------- LOOP THROUGH ROW & append every element to cleared list
@@ -104,17 +104,28 @@ try:
         for element in row:
             print("==> every element: " + element)
             #if element is not None:
-            try:
-                print("-> inside not None: " + element)
+            #try:
+            if element != '':
                 elementsArr.append(element)
+                print("-> inside not None: " + element)
                 print(elementsArr)
             #else:
-            except:
+            #except:
+            else:
                 print("-------> 'None' type catch")
                 elementsArr.append("Null val")
+                print("=============>>>>>>>> after append")
             
         print("===========> After for loop. list:")
         print(elementsArr)
+        
+        print("----------------> In row: ")
+        print(rowCount)
+        rowCount += 1
+        
+        print("--Element at 0 index: " + elementsArr[0])
+        
+        
         
         # --------- values to insert
         elem0 = elementsArr[0]
@@ -130,7 +141,8 @@ try:
         # --------- sql query
         sql_insert_query = """
             INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4) 
-            VALUES (elem0, elem1, elem2, elem3, elem4, elem9, elem10, elem11, elem12) """
+            VALUES ('somethinng', 'dededede', 'ededed', 'edede', 'ede', 'aaa', 'ee', 'ee', 'ffff') """
+            #VALUES ('somethinng', 'elem', 'elem2', 'elem3', 'elem4', 'elem9', 'elem10', 'elem11', 'elem12') """
             #VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
         
         # --------- execute sql query
@@ -143,8 +155,8 @@ try:
            
         # --------- clear array, display current row & increment row count
         elementsArr.clear()
-        print("----------------> In row: " + count)
-        count += 1
+        print("----------------> In row: " + rowCount)
+        rowCount += 1
 
 # -------------------------- ERROR
 except (Exception, psycopg2.Error) as error :
