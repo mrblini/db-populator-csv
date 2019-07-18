@@ -139,21 +139,20 @@ try:
         
         print("----------------elem 0:")
         print(elem0)
-        
-        thestr = str(elem0)
 
         # --------- sql query
         sql_insert_query = """
             INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4)
-            VALUES (thestr, 'dede', 'eded', 'edede', 'ede', 'aaa', 'ee', 'ee', 'ff');
-        """
-            #VALUES ('somethinng', 'elem', 'elem2', 'elem3', 'elem4', 'elem9', 'elem10', 'elem11', 'elem12') """
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
+        """ 
+        record_to_insert = (elem0, elem1, elem2, elem3, elem4, elem9, elem10, elem11, elem12)
+            #VALUES ('somethinng', 'elem1', 'elem2', 'elem3', 'elem4', 'elem9', 'elem10', 'elem11', 'elem12') """
             #VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
 
         print("---------------->>>> AFTER INSERT")
 
         # --------- execute sql query
-        cursor.execute(sql_insert_query)
+        cursor.execute(sql_insert_query, record_to_insert)
 
         print("--------------|--> AFTER CURSOR EXECUTE")
 
