@@ -26,11 +26,16 @@ from psycopg2 import Error
 
 # -------------------------- CONNECT TO POSTGRES DB:
 try:
-    connection = psycopg2.connect(user = "pablodiaz",
-                                  password = "rootroot",
-                                  host = "127.0.0.1",
-                                  port = "5400",
-                                  database = "DandyDB")
+    connection = psycopg2.connect(user = "postgres",
+                                  password = "",
+                                  host = "",
+                                  port = "5432",
+                                  database = "postgres")
+    #connection = psycopg2.connect(user = "pablodiaz",
+                                  #password = "rootroot",
+                                  #host = "127.0.0.1",
+                                  #port = "5400",
+                                  #database = "DandyDB")
     cursor = connection.cursor()
 
     print ( connection.get_dsn_parameters(),"\n")
@@ -103,7 +108,7 @@ try:
         print(rowCount)
 
         #how many rows to insert:
-        if rowCount == 100:
+        if rowCount == 1000:
             break
 
         # --------- LOOP THROUGH ROW & append every element to cleared list
@@ -126,26 +131,13 @@ try:
         print("================> After for loop. list:")
         print(elementsArr)
 
-        # --------- values to insert
-        elem0 = elementsArr[0]
-        elem1 = elementsArr[1]
-        elem2 = elementsArr[2]
-        elem3 = elementsArr[3]
-        elem4 = elementsArr[4]
-        elem9 = elementsArr[9]
-        elem10 = elementsArr[10]
-        elem11 = elementsArr[11]
-        elem12 = elementsArr[12]
-        
-        print("----------------elem 0:")
-        print(elem0)
 
         # --------- sql query
         sql_insert_query = """
             INSERT INTO "breed_supplement" (breed, top_1_supplement, top_2_supplement, top_3_supplement, top_4_supplement, medical_issue_1, medical_issue_2, medical_issue_3, medical_issue_4)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
         """ 
-        record_to_insert = (elem0, elem1, elem2, elem3, elem4, elem9, elem10, elem11, elem12)
+        record_to_insert = (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12])
             #VALUES ('somethinng', 'elem1', 'elem2', 'elem3', 'elem4', 'elem9', 'elem10', 'elem11', 'elem12') """
             #VALUES (elementsArr[0], elementsArr[1], elementsArr[2], elementsArr[3], elementsArr[4], elementsArr[9], elementsArr[10], elementsArr[11], elementsArr[12]) """
 
