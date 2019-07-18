@@ -26,16 +26,16 @@ from psycopg2 import Error
 
 # -------------------------- CONNECT TO POSTGRES DB:
 try:
-    connection = psycopg2.connect(user = "postgres",
-                                  password = "",
-                                  host = "",
-                                  port = "5432",
-                                  database = "postgres")
-    #connection = psycopg2.connect(user = "pablodiaz",
-                                  #password = "rootroot",
-                                  #host = "127.0.0.1",
-                                  #port = "5400",
-                                  #database = "DandyDB")
+    #connection = psycopg2.connect(user = "postgres",
+                                  #password = "",
+                                  #host = "",
+                                  #port = "5432",
+                                  #database = "postgres")
+    connection = psycopg2.connect(user = "pablodiaz",
+                                  password = "rootroot",
+                                  host = "127.0.0.1",
+                                  port = "5400",
+                                  database = "DandyDB")
     cursor = connection.cursor()
 
     print ( connection.get_dsn_parameters(),"\n")
@@ -124,7 +124,7 @@ try:
             #else:
             #except:
             else:
-                elementsArr.append("Null val")
+                elementsArr.append(None)
                 print("===========> 'None' type catch")
 
         # --------- print temporary list
